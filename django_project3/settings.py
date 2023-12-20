@@ -130,11 +130,44 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Configuração de E-mail
+# Configuração de E-mail para teste local em console
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Configuração de E-mail para produção
+#
+# EMAIL_HOST = 'localhost'
+# EMAIL_HOST_USER = 'no-reply@fusion.com.br'
+# EMAIL_PORT = 587
+# EMAIL_USE_TSL = True
+# EMAIL_HOST_PASSWORD = 'fusion'
+# DEFAULT_FROM_EMAIL = 'contato@fusion.com.br'
+#
 
 # Configuração de Mídia
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+# Configuração para visualizar queries pelo console
+# LOGGING = {
+#     "version": 1,
+#     "disable_existing_loggers": False,
+#     "handlers": {
+#         "console": {
+#             "class": "logging.StreamHandler",
+#         },
+#     },
+#     "root": {
+#         "handlers": ["console"],
+#         "level": "DEBUG",
+#     },
+#     "loggers": {
+#         "django": {
+#             "handlers": ["console"],
+#             "level": 'DEBUG',
+#             "propagate": False,
+#         },
+#     },
+# }
