@@ -6,23 +6,32 @@ from core.forms import ContatoForm
 class ContatoFormTestCase(TestCase):
 
     def setUp(self):
-        fake = Faker('pt_BR')
-        self.dados = {
-            'nome': fake.name(),
-            'email': fake.email(),
-            'assunto': fake.sentence(),
-            'mensagem': fake.text(max_nb_chars=100)
+        self.fake = Faker('pt_BR')
+
+
+    def test_send_valid_mail(self):
+        dados = {
+            'nome': self.fake.name(),
+            'email': self.fake.email(),
+            'assunto': self.fake.sentence(),
+            'mensagem': self.fake.text(max_nb_chars=100)
         }
+        form = ContatoForm(data=dados)
 
-        self.form = ContatoForm(data=self.dados)
+        self.assertTrue(form.is_valid())
+        self.assertTrue(form.send_mail())
+
     
-    def test_send_mail(self):
-        form1 = ContatoForm(data=self.dados)
-        form1.is_valid()
-        res1 = form1.send_mail()
+    def test_send_invalid_mail(self):
+        dados = {
+            'nome': self.fake.name(),
+            'email': "",
+            'assunto': self.fake.sentence(),
+            'mensagem': self.fake.text(max_nb_chars=100)
+        }
+        form = ContatoForm(data=dados)
 
-        form2 = self.form
-        form2.is_valid()
-        res2 = form2.send_mail()
-
-        self.assertAlmostEqual(res1,res2)
+        self.assertFalse(form.is_valid())
+        self.assertIn('email', form.errors)
+        self.assertEqual(form.errors['email'], ['Este campo é obrigatório.'])
+        
